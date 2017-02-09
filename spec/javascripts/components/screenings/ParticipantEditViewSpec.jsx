@@ -76,4 +76,9 @@ describe('ParticipantEditView', () => {
   it('renders the cancel link', () => {
     expect(component.find('.btn.btn-default').text()).toEqual('Cancel')
   })
+
+  it('calls the onEdit function when edit link is clicked', () => {
+    component.find('EditLink').simulate('click')
+    expect(onEdit).toHaveBeenCalled()
+  })
 })
