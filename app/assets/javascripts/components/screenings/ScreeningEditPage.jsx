@@ -67,6 +67,10 @@ export class ScreeningEditPage extends React.Component {
     this.props.actions.createParticipant(participant)
   }
 
+  deleteParticipant(id) {
+    this.props.actions.deleteParticipant(id)
+  }
+
   saveAll() {
     if (this.state.loaded) {
       const narrativeCardSave = this.refs.narrativeCard.onSave()
