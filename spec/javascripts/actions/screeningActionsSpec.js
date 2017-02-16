@@ -113,7 +113,7 @@ describe('screening actions', () => {
     })
   })
 
-  fdescribe('deleteParticipant', () => {
+  describe('deleteParticipant', () => {
     const participant = {screening_id: '1', person_id: '2', id: '1'}
     const store = mockStore()
     beforeEach(() => {
@@ -136,6 +136,5 @@ describe('screening actions', () => {
       store.dispatch(screeningActions.deleteParticipant(participant.id))
       expect(store.getActions()[0].type).toEqual(types.DELETE_PARTICIPANT_SUCCESS)
     })
-
   })
 })

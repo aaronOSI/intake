@@ -67,6 +67,6 @@ export function deleteParticipant(id) {
         null,
         {contentType: 'application/json'}
     )
-    .then((jsonResponse) => dispatch(deleteParticipantSuccess()))
+    .then(() => dispatch(deleteParticipantSuccess()))
   )
 }
