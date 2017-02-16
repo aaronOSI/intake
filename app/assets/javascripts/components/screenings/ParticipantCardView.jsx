@@ -25,12 +25,13 @@ export default class ParticipantCardView extends React.Component {
       View = ParticipantShowView
     }
     return (
-      <View participant={participant} onEdit={this.onEdit} />
+      <View participant={participant} onEdit={this.onEdit} onDelete={this.props.onDelete} />
     )
   }
 }
 
 ParticipantCardView.propTypes = {
   mode: React.PropTypes.oneOf(['edit', 'show']),
+  onDelete: React.PropTypes.func,
   participant: React.PropTypes.object.isRequired,
 }

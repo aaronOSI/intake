@@ -22,6 +22,7 @@ export class ScreeningEditPage extends React.Component {
       'setField',
       'update',
       'createParticipant',
+      'deleteParticipant',
       'cardSave',
       'saveAll',
     ]
@@ -98,7 +99,7 @@ export class ScreeningEditPage extends React.Component {
         </div>
         {
           participants.map((participant) =>
-            <ParticipantCardView key={participant.get('id')} participant={participant} mode='edit'/>
+            <ParticipantCardView key={participant.get('id')} onDelete={this.deleteParticipant} participant={participant} mode='edit'/>
           )
         }
       </div>
