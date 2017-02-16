@@ -748,6 +748,11 @@ tbody tr th {
       position: relative;
       top: $base-spacing * .2;
     }
+
+    button {
+      background: none;
+      border: none;
+    }
   }
 
   .card-body {
