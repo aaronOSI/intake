@@ -118,6 +118,12 @@ const IncidentInformationEditView = ({screening, onChange}) => (
           {Object.keys(SCREENING_DECISION).map((item) => <option key={item} value={item}>{SCREENING_DECISION[item]}</option>)}
         </SelectField>
       </div>
+      <div className='row'>
+        <div className='centered'>
+          <button className='btn btn-primary'>Save</button>
+          <button className='btn btn-default'>Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
 )

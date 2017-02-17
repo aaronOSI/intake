@@ -3,7 +3,7 @@ import React from 'react'
 import IncidentInformationEditView from 'components/screenings/IncidentInformationEditView'
 import {shallow} from 'enzyme'
 
-describe('IncidentInformationEditView', () => {
+fdescribe('IncidentInformationEditView', () => {
   let component
   let onChange
   beforeEach(() => {
@@ -48,6 +48,14 @@ describe('IncidentInformationEditView', () => {
       .toEqual('within_twenty_four_hours')
     expect(component.find('SelectField[label="Screening Decision"]').props().value)
       .toEqual('accept_for_investigation')
+  })
+
+   it('renders the save button', () => {
+    expect(component.find('.btn.btn-primary').text()).toEqual('Save')
+  })
+
+  it('renders the cancel link', () => {
+    expect(component.find('.btn.btn-default').text()).toEqual('Cancel')
   })
 
   it('fires the onChange call when a field changes', () => {

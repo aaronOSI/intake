@@ -45,6 +45,8 @@ feature 'Edit Screening' do
       expect(page).to have_field('Incident County', with: 'sacramento')
       expect(page).to have_field('Response Time', with: 'immediate')
       expect(page).to have_field('Screening Decision', with: 'evaluate_out')
+      expect(page).to have_content('Save')
+      expect(page).to have_content('Cancel')
     end
 
     within '#screening-information-card' do
