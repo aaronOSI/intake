@@ -59,7 +59,8 @@ feature 'screening narrative card' do
   scenario 'user edits narrative card from screening show page and saves' do
     existing_screening = FactoryGirl.create(
       :screening,
-      report_narrative: 'This is my report narrative'
+      report_narrative: 'This is my report narrative',
+      address: {type: nil}
     )
     stub_request(:get, api_screening_path(existing_screening.id))
       .and_return(json_body(existing_screening.to_json))
@@ -92,7 +93,8 @@ feature 'screening narrative card' do
   scenario 'user edits narrative card from screening edit page and saves' do
     existing_screening = FactoryGirl.create(
       :screening,
-      report_narrative: 'This is my report narrative'
+      report_narrative: 'This is my report narrative',
+      address: {type: nil}
     )
     stub_request(:get, api_screening_path(existing_screening.id))
       .and_return(json_body(existing_screening.to_json))

@@ -5,6 +5,7 @@ require 'spec_helper'
 
 feature 'Edit Screening' do
   scenario 'edit an existing screening' do
+    address = FactoryGirl.build(:address, state: 'NY', type: nil)
     existing_screening = FactoryGirl.create(
       :screening,
       ended_at: '2016-08-13T11:00:00.000Z',
@@ -18,7 +19,8 @@ feature 'Edit Screening' do
       screening_decision: 'evaluate_out',
       started_at: '2016-08-13T10:00:00.000Z',
       updated_at: '2016-10-21T16:11:59.484Z',
-      created_at: '2016-10-21T16:11:59.484Z'
+      created_at: '2016-10-21T16:11:59.484Z',
+      address: address
     )
 
     stub_request(:get, api_screening_path(existing_screening.id))
@@ -62,10 +64,10 @@ feature 'Edit Screening' do
       fill_in 'Incident Date', with: '2016-08-11'
       select  'Mariposa', from: 'Incident County'
       within 'fieldset', text: 'Incident Address' do
-        fill_in 'Address', with: '123 fake st'
-        fill_in 'City', with: 'Springfield'
+        fill_in 'Address', with: address.street_address
+        fill_in 'City', with: address.city
         select 'New York', from: 'State'
-        fill_in 'Zip', with: '12345'
+        fill_in 'Zip', with: address.zip
       end
       select "Child's Home", from: 'Location Type'
     end
@@ -89,12 +91,6 @@ feature 'Edit Screening' do
       response_time: 'immediate',
       screening_decision: 'evaluate_out',
       started_at: '2016-08-13T10:00.000Z'
-    )
-    existing_screening.address.assign_attributes(
-      city: 'Springfield',
-      state: 'NY',
-      street_address: '123 fake st',
-      zip: '12345'
     )
 
     stub_request(:put, api_screening_path(existing_screening.id))

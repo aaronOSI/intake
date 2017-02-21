@@ -3,98 +3,64 @@ require 'rails_helper'
 
 feature 'Create Address' do
   scenario 'add and remove address' do
-    address1 = FactoryGirl.create(
-      :address,
-      city: 'Springfield',
-      id: nil,
-      state: 'NY',
-      street_address: '123 fake st',
-      zip: '55555',
-      type: 'Placement'
-    )
-    address2 = FactoryGirl.create(
-      :address,
-      city: nil,
-      id: nil,
-      state: nil,
-      street_address: nil,
-      zip: '12455',
-      type: nil
-    )
+    address1 = FactoryGirl.build(:address, state: 'CA')
+    address2 = FactoryGirl.build(:address, state: 'NY')
     person = FactoryGirl.create(
       :person,
-      phone_numbers: [],
-      addresses: [address1, address2],
-      languages: [],
-      ethnicity: { hispanic_latino_origin: nil, ethnicity_detail: nil }
+      addresses: [address1, address2]
     )
-    created_address1 = FactoryGirl.create(:address, address1.as_json.merge(id: '2'))
-    created_address2 = FactoryGirl.create(:address, address2.as_json.merge(id: '3'))
-    created_person = FactoryGirl.create(:person,
-      person.as_json.merge(id: '1', addresses: [created_address1, created_address2]))
 
     visit new_person_path
 
     click_button 'Add new address'
     within '#addresses' do
-      fill_in 'Address', with: '123 fake st'
-      fill_in 'City', with: 'Springfield'
-      select 'New York', from: 'State'
-      fill_in 'Zip', with: '55555'
-      select 'Placement', from: 'Address Type'
+      fill_in 'Address', with: address1.street_address
+      fill_in 'City', with: address1.city
+      select 'California', from: 'State'
+      fill_in 'Zip', with: address1.zip
+      select address1.type, from: 'Address Type'
     end
 
     click_button 'Add new address'
     within '#addresses' do
       within all('.list-item').last do
-        fill_in 'Address', with: nil
-        fill_in 'City', with: nil
-        select '', from: 'State'
-        fill_in 'Zip', with: '12455'
-        select '', from: 'Address Type'
+        fill_in 'Address', with: address2.street_address
+        fill_in 'City', with: address2.city
+        select 'New York', from: 'State'
+        fill_in 'Zip', with: address2.zip
+        select address2.type, from: 'Address Type'
       end
     end
 
     stub_request(:post, api_people_path)
       .with(body: person.to_json(except: :id))
-      .and_return(body: created_person.to_json,
+      .and_return(body: person.to_json,
                   status: 201,
                   headers: { 'Content-Type' => 'application/json' })
-    stub_request(:get, api_person_path('1'))
-      .and_return(body: created_person.to_json,
+    stub_request(:get, api_person_path(person.id))
+      .and_return(body: person.to_json,
                   status: 200,
                   headers: { 'Content-Type' => 'application/json' })
 
     click_button 'Save'
-
     expect(a_request(:post, api_people_path)
       .with(body: person.to_json(except: :id)))
       .to have_been_made
-
-    expect(page).to have_current_path(person_path(1))
+    expect(page).to have_current_path(person_path(person.id))
   end
 
   scenario 'create a person with empty address ' do
-    person = FactoryGirl.create(
-      :person,
-      id: nil,
-      phone_numbers: [],
-      addresses: [],
-      languages: [],
-      ethnicity: { hispanic_latino_origin: nil, ethnicity_detail: nil }
-    )
-    created_person = FactoryGirl.create(:person, person.as_json.merge(id: '1'))
+    person = FactoryGirl.create(:person, addresses: [])
+    
     stub_request(:post, api_people_path)
       .with(body: person.to_json(except: :id))
-      .and_return(body: created_person.to_json,
+      .and_return(body: person.to_json,
                   status: 201,
                   headers: { 'Content-Type' => 'application/json' })
 
     visit new_person_path
     click_button 'Add new address'
-
     click_button 'Save'
-
     expect(a_request(:post, api_people_path)
       .with(body: person.to_json(except: :id)))
       .to have_been_made
