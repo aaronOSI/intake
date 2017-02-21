@@ -30,7 +30,7 @@ feature 'Edit Screening' do
     )
   end
   let(:screening) do
-    FactoryGirl.build(
+    FactoryGirl.create(
       :screening,
       participants: [participant]
     )
