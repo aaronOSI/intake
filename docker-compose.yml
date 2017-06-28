@@ -1,7 +1,12 @@
-version: '2'
+version: '2.1'
 # 6/23/2017 - version 3.x does not support extends yet.
 # - https://docs.docker.com/compose/extends/#extending-services
 services:
+  selenium:
+    image: selenium/standalone-firefox:3.4.0-dysprosium
+    shm_size: "2G" # https://github.com/SeleniumHQ/docker-selenium/issues/397
+    environment:
+      TZ: 'Etc/GMT+7'
   ca_intake:
     build: .
     command: ./bin/docker_start
@@ -16,6 +21,7 @@ services:
       REDIS_HOST: 'redis'
       REDIS_PORT: 6379
       USE_XVFB: 'true'
+      TZ: 'UTC'
     volumes:
       - .:/ca_intake
       - ca_intake_rubygems:/ruby_gems
@@ -23,6 +29,7 @@ services:
     links:
       - api
       - redis
+      - selenium
     tty: true
     stdin_open: true
   api:

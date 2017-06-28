@@ -29,17 +29,17 @@ if ENV['GENERATE_TEST_REPORTS'] == 'yes'
 end
 
 RSpec.configure do |config|
-  config.before :suite do
-    if ENV['USE_XVFB'] == 'true'
-      require 'headless'
-      @headless_manager = Headless.new(reuse: false)
-      @headless_manager.start
-    end
-  end
+  # config.before :suite do
+    # if ENV['USE_XVFB'] == 'true'
+      # require 'headless'
+      # @headless_manager = Headless.new(reuse: false)
+      # @headless_manager.start
+    # end
+  # end
 
-  config.after :suite do
-    @headless_manager.destroy if @headless_manager && ENV['USE_XVFB'] == 'true'
-  end
+  # config.after :suite do
+    # @headless_manager.destroy if @headless_manager && ENV['USE_XVFB'] == 'true'
+  # end
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -64,15 +64,23 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  # config.after(:each) do
+    # puts '$$$$$$$$$$$$$'
+    # puts '$$$$$$$$$$$$$'
+    # puts '$$$$$$$$$$$$$'
+    # puts '$$$$$$$$$$$$$'
+    # puts Capybara.current_session
+  # end
+
   config.around(:each, type: :feature) do |example|
-    WebMock.disable_net_connect!(allow_localhost: true)
+    WebMock.disable_net_connect!(allow: ['selenium'], allow_localhost: true)
     example.run
     WebMock.allow_net_connect!
   end
 
   config.around(:example, accessibility: false) do |example|
     tmp_driver = Capybara.default_driver
-    Capybara.default_driver = :selenium
+    Capybara.default_driver = "selenium_remote".to_sym
     example.run
     Capybara.default_driver = tmp_driver
   end

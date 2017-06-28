@@ -141,7 +141,7 @@ feature 'Edit Screening' do
     fill_in 'Title/Name of Screening', with: 'The Rocky Horror Picture Show'
 
     within '#search-card', text: 'Search' do
-      fill_in_autocompleter 'Search for any person', with: 'Marge'
+      fill_in_autocompleter 'Search for any person', with: 'Marge', skip_select: true
       find('li', text: 'Marge Simpson').click
     end
 

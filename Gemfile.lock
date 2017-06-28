@@ -63,12 +63,10 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-accessible (0.2.1)
-      capybara (~> 2.0)
     capybara-screenshot (1.0.14)
       capybara (>= 1.0, < 3)
       launchy
-    childprocess (0.6.1)
+    childprocess (0.7.1)
       ffi (~> 1.0, >= 1.0.11)
     clamp (1.0.1)
     cliver (0.3.2)
@@ -104,7 +102,7 @@ GEM
       faraday (>= 0.7.4, < 1.0)
     feature (1.4.0)
     ffaker (2.5.0)
-    ffi (1.9.17)
+    ffi (1.9.18)
     fpm (1.8.1)
       archive-tar-minitar (= 0.5.2)
       arr-pm (~> 0.0.10)
@@ -314,10 +312,9 @@ GEM
     scss_lint (0.52.0)
       rake (>= 0.9, < 13)
       sass (~> 3.4.20)
-    selenium-webdriver (2.53.1)
+    selenium-webdriver (3.4.3)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
-      websocket (~> 1.0)
     sexp_processor (4.8.0)
     simplecov (0.13.0)
       docile (~> 1.1.0)
@@ -363,7 +360,6 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
-    websocket (1.2.4)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -377,7 +373,6 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
-  capybara-accessible
   capybara-screenshot
   factory_girl_rails
   faker
@@ -411,7 +406,7 @@ DEPENDENCIES
   rubocop
   rubocop-junit-formatter
   scss_lint
-  selenium-webdriver (= 2.53.1)
+  selenium-webdriver
   simplecov
   spring
   timecop

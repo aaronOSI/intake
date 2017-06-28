@@ -3,9 +3,13 @@
 require 'capybara-screenshot'
 require 'capybara-screenshot/rspec'
 
-Capybara::Screenshot.register_driver(:accessible_selenium) do |driver, path|
+Capybara::Screenshot.register_driver(:accessible_selenium_remote) do |driver, path|
   # This is assuming Capybara::Accessible is currently using Selenium
   # underneath.
+  driver.browser.save_screenshot(path)
+end
+Capybara::Screenshot.register_driver(:selenium_remote) do |driver, path|
+  # Add this to prevent fatal errors on accessibility: false tests
   driver.browser.save_screenshot(path)
 end
 
@@ -13,5 +17,5 @@ Capybara::Screenshot.register_filename_prefix_formatter(:rspec) do |example|
   example.location.gsub(%r{^./}, '').gsub(%r{[/:]}, '__')
 end
 
-Capybara::Screenshot.prune_strategy = :keep_last_run
+Capybara::Screenshot.prune_strategy = { keep: 100 }
 Capybara::Screenshot.append_timestamp = false

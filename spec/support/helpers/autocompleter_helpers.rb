@@ -18,13 +18,20 @@ module AutocompleterHelpers
       raise 'You need to tag your test with @javascript to use this step'
     end
 
-    value.split('').each { |c| find_field(locator).native.send_keys(c) }
 
     # Firefox doesn't trigger focus/blur when the window doesn't have system focus
     # So, we added a click handler to the autocompleter as an alternative way to
     # trigger the dropdown.
     field = find_field(locator)
-    field.click unless field.base.click
+    field.click
+    field.click
+    # fill_in(locator, with: value)
+    value.split('').each do |character|
+      find_field(locator).native.send_keys(character)
+      sleep 0.15 # Make it human because we don't debounce, see http://typefastnow.com/average-typing-speed
+    end
+    # field.click
+    # field.click unless field.base.click
   end
 
   def click_autocompleter_result(value, result_should_contain)

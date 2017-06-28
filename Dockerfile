@@ -8,9 +8,15 @@ RUN \
     iceweasel \
     chromium \
     xvfb
-
+# Install NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs
+
+# Install geckodriver
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz
+RUN tar -x geckodriver -zf geckodriver-v0.16.1-linux64.tar.gz -O > /usr/bin/geckodriver
+RUN sudo chmod +x /usr/bin/geckodriver
+RUN rm geckodriver-v0.16.1-linux64.tar.gz
 
 ENV APP_HOME /ca_intake
 RUN mkdir $APP_HOME
